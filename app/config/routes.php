@@ -6,6 +6,8 @@ $routes = [
 	"/" => "home",
 	"/home" => "home",
 	"/news" => "news",
-	"/project" ="project",
+	"/project" => "project",
 	"/contact" => "contact",
+	"/login" => "login",
+	"/registration" => "registration",
 ];

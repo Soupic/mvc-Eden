@@ -10,7 +10,7 @@ class Dispatcher
 	{
 
 		//on instancie le controller
-		$conroller = new DefaultConroller();
+		$controller = new DefaultController();
 		//une boucle foreach cherche la route dans le tableau
 		foreach ($routes as $url => $method) {
 			if ($url == $p) {
