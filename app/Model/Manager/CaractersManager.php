@@ -4,6 +4,7 @@ namespace Model\Manager;
 
 use Model\DbConnexion;
 use PDO;
+use Model\Entity\Caracters;
 
 class CaractersManager
 {

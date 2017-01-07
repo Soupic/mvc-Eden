@@ -2,6 +2,10 @@
 
 namespace Model\Manager;
 
+use Model\DbConnexion;
+use PDO;
+use Model\Entity\Images;
+
 class ImagesManager
 {
 	/*
@@ -10,35 +14,39 @@ class ImagesManager
 	Regardé comment récupéré l'id, surmeent à mettre dans un $_GET
 
 	 */
-	public function allImageCaracters($id)
+	public function allImageCaracters($caracterId)
 	{
-		$sql = "SELECT id, name, type, id_caracters
+		$sql = "SELECT img.id, img.name, img.type, img.id_caracters
 				FROM images img
 				INNER JOIN caracters car
 				ON img.id_caracters = car.id
-				WHERE car.ig = :id";
+				WHERE car.id = :caract_id;";
 
 		$dbh = DbConnexion::getDbh();
 	
+		$dbh = DbConnexion::getDbh();
 		$stmt = $dbh->prepare($sql);
-		$stmt->bindValue(":id", $id);
+		$stmt->bindValue(":caract_id", $caracterId);
 		$stmt->execute();
 
-		$results = $stmt->fetch();
+		$results = $stmt->fetchAll(\PDO::FETCH_CLASS,'\Model\Entity\Images');
 	
 		return $results;
-
 	}
 
-	public function caractresImage()
+	public function caractresImage($caracterId)
 	{
-		$sql = "SELECT id, name, type, id_caracters
+		$sql = "SELECT img.id, img.name, img.type, img.id_caracters
 				FROM images img
 				INNER JOIN caracters car
-				ON img.id_caracters = car.id";
+				ON img.id_caracters = car.id
+				WHERE car.id = :caract_id;";
+
+
 
 		$dbh = DbConnexion::getDbh();
 		$stmt = $dbh->prepare($sql);
+		$stmt->bindValue(":caract_id", $caracterId);
 		$stmt->execute();
 
 		$results = $stmt->fetch();
