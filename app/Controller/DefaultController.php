@@ -5,7 +5,7 @@ namespace Controller;
 use View\View;
 use Model\Manager\NewsManager;
 use Model\Manager\CaractersManager;
-use Model\Entity\Caracters;
+use Model\Manager\UsersManager;
 use Model\Manager\ImagesManager;
 
 class DefaultController
@@ -85,7 +85,7 @@ class DefaultController
 	}
 
 	function register()
-	 {
-	 	echo "registration";
-	 }
+	{
+	 	$usersManager = new UsersManager();
+	}
 }
