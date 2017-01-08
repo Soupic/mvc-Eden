@@ -31,11 +31,11 @@ class UsersManager
 	{
 		$sql = "SELECT id
 				FROM users
-				WHERE add_mail = :email";
+				WHERE email = :email";
 
 		$dbh = DbConnexion::getDbh();
 		$stmt = $dbh->prepare($sql);
-		$stmt->bindValue(":add_mail", $email);
+		$stmt->bindValue(":email", $email);
 		$stmt->execute();
 
 		$restults = $stmt->fetch();
@@ -46,14 +46,14 @@ class UsersManager
 	//methode d'insertion d'un utilisateur
 	public function insertUser($date_registration, $pseudo, $email, $passwordHash, $token, $age, $role)
 	{
-		$sql = "INSERT INTO users (id, date_registration, pseudo, add_mail, password, token, age, role)
-				VALUES (NULL, NOW(), :pseudo, :add_mail, :password, : token, :age, :role)";
+		$sql = "INSERT INTO users (id, date_registration, pseudo, email, password, token, age, role)
+				VALUES (NULL, NOW(), :pseudo, :email, :password, :token, :age, :role)";
 
 		$dbh = DbConnexion::getDbh();
 
 		$stmt = $dbh->prepare($sql);
 		$stmt->bindValue(":pseudo", $pseudo);
-		$stmt->bindValue(":add_mail", $email);
+		$stmt->bindValue(":email", $email);
 		$stmt->bindValue(":password", $passwordHash);
 		$stmt->bindValue(":token", $token);
 		$stmt->bindValue(":age", $age);
@@ -61,4 +61,18 @@ class UsersManager
 
 		return $stmt->execute();
 	}
+
+	public function getUserByEmailOrUsername($usernameOrEmail)
+    {
+        $sql = "SELECT * FROM users 
+				WHERE username = :usernameOrEmail 
+				OR email = :usernameOrEmail";
+
+        $dbh = Db::getDbh();
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(":usernameOrEmail", $usernameOrEmail);
+        $stmt->execute();
+        $user = $stmt->fetch();
+        return $user;
+    }
 }

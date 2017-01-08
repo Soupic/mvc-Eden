@@ -7,7 +7,7 @@ class User
 	private $id;
 	private $date_registration;
 	private $pseudo;
-	private $add_mail;
+	private $email;
 	private $password;
 	private $age;
 	private $type;
@@ -79,25 +79,25 @@ class User
     }
 
     /**
-     * Gets the value of add_mail.
+     * Gets the value of email.
      *
      * @return mixed
      */
     public function getAddMail()
     {
-        return $this->add_mail;
+        return $this->email;
     }
 
     /**
-     * Sets the value of add_mail.
+     * Sets the value of email.
      *
-     * @param mixed $add_mail the add mail
+     * @param mixed $email the add mail
      *
      * @return self
      */
-    public function setAddMail($add_mail)
+    public function setAddMail($email)
     {
-        $this->add_mail = $add_mail;
+        $this->email = $email;
     }
 
     /**

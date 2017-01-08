@@ -7,6 +7,8 @@ use Controller\Dispatcher;
 require("app/config/config.php");
 //importation du fichier route!
 require("app/config/routes.php");
+//On importe le fichier autoload pour composer
+require("vendor/autoload.php");
 
 //autochargement des clases
 spl_autoload_register(function($className){
