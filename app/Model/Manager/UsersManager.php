@@ -44,9 +44,9 @@ class UsersManager
 	}
 
 	//methode d'insertion d'un utilisateur
-	public function insertUser($date_registration, $pseudo, $email, $passwordHash, $token, $age, $role)
+	public function insertUser($pseudo, $email, $passwordHash, $token, $age, $role)
 	{
-		$sql = "INSERT INTO users (id, date_registration, pseudo, email, password, token, age, role)
+		$sql = "INSERT INTO users (id, date_registation, pseudo, email, password, token, age, role)
 				VALUES (NULL, NOW(), :pseudo, :email, :password, :token, :age, :role)";
 
 		$dbh = DbConnexion::getDbh();
@@ -65,14 +65,32 @@ class UsersManager
 	public function getUserByEmailOrUsername($usernameOrEmail)
     {
         $sql = "SELECT * FROM users 
-				WHERE username = :usernameOrEmail 
+				WHERE pseudo = :usernameOrEmail 
 				OR email = :usernameOrEmail";
 
-        $dbh = Db::getDbh();
+        $dbh = DbConnexion::getDbh();
         $stmt = $dbh->prepare($sql);
         $stmt->bindValue(":usernameOrEmail", $usernameOrEmail);
         $stmt->execute();
         $user = $stmt->fetch();
         return $user;
+    }
+
+    public function getAdminOnly($usernameOrEmail)
+    {
+    	$sql = "SELECT pseudo, role
+    			FROM users
+    			WHERE pseudo = :usernameOrEmail AND role = 1
+    			OR email = :usernameOrEmail AND role = 1";
+
+    	$dbh = DbConnexion::getDbh();
+    	$stmt = $dbh->prepare($sql);
+    	$stmt->bindValue(":pseudo", $usernameOrEmail);
+    	$stmt->bindValue(":usernameOrEmail", $usernameOrEmail);
+    	$stmt->execute();
+
+    	$results = $stmt->fetch();
+
+    	return $results;
     }
 }

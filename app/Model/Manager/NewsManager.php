@@ -21,4 +21,18 @@ class NewsManager
 		return $results;
 
 	}
+
+	public function addNews($title, $content, $link = null)
+	{
+		$sql = "INSERT INTO news  (id, date_post, title, content, link
+				VALUES (NULL, NOW(), :title, :content, :link)";
+
+		$dbh = DbConnexion::getDbh();
+		$stmt = $dbh->prepare($sql);
+		$stmt->bindValue(":title", $title);
+		$stmt->bindValue(":content", $content);
+		$stmt->bindValue(":link", $link);
+
+		return $stmt->execute();
+	}
 }

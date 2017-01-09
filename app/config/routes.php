@@ -11,5 +11,7 @@ $routes = [
 	"/caractersDetails" => "caracterDetail",
 	"/contact" => "contact",
 	"/login" => "login",
+	"/logout" => "logout",
 	"/register" => "register",
+	"/admin" => "admin",
 ];

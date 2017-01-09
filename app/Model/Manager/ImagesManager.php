@@ -53,4 +53,19 @@ class ImagesManager
 
 		return $results;
 	}
+
+
+	public function addImage($name, $type)
+	{
+		$sql = "INSERT INTO images (id, name, type
+				VALUES (NULL, :name, :type)";
+
+		$dbh = DbConnexion::getDbh();
+		$stmt = $dbh->prepare($sql);
+		$stmt->bindValue(":name", $name);
+		$stmt->bindValue(":type", $type);
+		
+		return $stmt->execute();
+
+	}
 }

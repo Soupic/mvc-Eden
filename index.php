@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 //on va chercher le controller
 use Controller\Dispatcher;

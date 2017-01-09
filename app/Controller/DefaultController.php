@@ -81,7 +81,45 @@ class DefaultController
 
 	function login()
 	{
-		echo "login";
+		$error = null;
+		//si $_POST n'est pas vide on vérifie le username ou l'email
+		if (!empty($_POST)) {
+			//on récupère le usernameOrEmail saisie par l'utilisateur
+			$usernameOrEmail = $_POST["usernameOrEmail"];
+			$usersManager = new UsersManager();
+			//on appel la fonction de vérification usernameOrEmail
+			$user = $usersManager->getUserByEmailOrUsername($usernameOrEmail);
+
+			//on vérifie si il est admin ou pas
+			$userRoles = $usersManager->getAdminOnly($usernameOrEmail);
+			//on boucle pour vérifié si la méthode nous à retourné un utiliateur admin, si oui on stock dans $SESSION['role'] la valeur true
+			if(!empty($userRoles)){
+				$_SESSION['role'] = true;
+				}
+				else {
+					$_SESSION['role'] = false;
+				}
+			
+
+			//hash le password et le compare à celui de la base de donnée
+			if (password_verify($_POST['password'], $user['password'])){
+				//utilisation de $_SESSION pour socké une donnée pour l'utilisé lors de l'autorisation des page sécurisés
+				$_SESSION['user'] = $user;
+
+				//$_COOKIE pour la lecture
+                //on stocke le token dans un cookie
+                //on ne devrait placer ce cookie que si une case est cochée
+                //pour l'instant, ce cookie ne sert à rien !!!
+                setcookie("remember_me", $user['token'], strtotime("+ 1 months"), "/");
+                //redirige vers le menu
+                header("Location: ".BASE_URL);
+			}
+			else {
+				//erreur en cas de mauvaise saisie
+				$error = "Erreur de pseudo ou de mot de passe";
+			}
+		}
+		View::show("login.php", "Login", ["error" => $error]);
 	}
 
 	function register()
@@ -92,8 +130,7 @@ class DefaultController
 	 	//on vérifie qu'il y a bien quelque chose dans $_POST
 	 	if(!empty($_POST)){
 	 		//on évite les injection XSS avec la fonction php strip_tags
-	 		$pseudoXss = strip_tags($_POST['pseudo']);
-	 		$pseudo = $this->formatPseudo($_POST['pseudo']);
+	 		$pseudo = strip_tags($_POST['pseudo']);
 	 		$email = strip_tags($_POST['email']);
 	 		$password = $_POST['password'];
 	 		$passwordBis = $_POST['passwordBis'];
@@ -101,6 +138,9 @@ class DefaultController
 
 	 		if (empty($pseudo) || empty($email) || empty($password) || (empty($passwordBis))) {
 	 			$errors[] = "Tout les champs ne sont pas remplis !!";
+	 		}
+	 		if (strlen($pseudo) > 20) {
+	 			$errors[] = "Votre pseudo est trop long";
 	 		}
 	 		//on vérifie que les mot de passe sont identique
 	 		if ($password != $passwordBis){
@@ -133,7 +173,7 @@ class DefaultController
 	 			//si la requete fonctionne
 	 			if ($insertUser) {
 	 				//on pourrait aussi directement connecter l'utilisateur ici
-                    $user = $userManager->getUserByEmailOrUsername($username);
+                    $user = $usersManager->getUserByEmailOrUsername($pseudo);
                     $_SESSION['user'] = $user;
                     //redirige sur l'accueil
                     header("Location: ".BASE_URL);
@@ -148,25 +188,23 @@ class DefaultController
 	 	View::show("register.php", "Register", ["errors" => $errors]);
 	}
 
-		//Vérification si longueur et format correct du pseudo
-	function formatPseudo($pseudo)
+	function logout()
 	{
-		//on créer un tableau d'erreur
-		$errors = [];
-		//on créer un tableau de valeur interdites
-		$exclusions = ["admin", "administrateur", "administrator"];
-		//on vérifie la longueur du pseudo
-		if(strlen($pseudo) > 20){
-			$errors[] = "User Name trop long, doit contenir moins de 20 caractères";
-		}
-		else{
-			foreach ($exclusions as $value) {
-				if($pseudo == $value){
-					$errors[] = "User Name réservé";
-				}
-			}
-		}
-		return $pseudo;
-		
+		View::show("logout.php", "Logout");
 	}
+
+	function admin()
+	{
+		$usersManager = new UsersManager();
+		if(($_SESSION['role'] == true) && ($_GET['admin'])){
+			$newsManager = new NewsManager();
+			$imagesManager = new ImagesManager();
+			$news = $newsManager->addNews();
+
+			$title = $_POST['title'];
+			$content = $_POST['content'];
+			$link = $_FILES['name']['type'];
+		}
+	}
+
 }
