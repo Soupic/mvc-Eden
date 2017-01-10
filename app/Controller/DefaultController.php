@@ -193,18 +193,25 @@ class DefaultController
 		View::show("logout.php", "Logout");
 	}
 
-	function admin()
+	function adminNews()
 	{
 		$usersManager = new UsersManager();
-		if(($_SESSION['role'] == true) && ($_GET['admin'])){
+		$user = $usersManager->checkPseudo($_SESSION['user']['pseudo']);
+		if(!empty($_SESSION['user']['role'] == true) && !empty($_GET['addNews'])){
 			$newsManager = new NewsManager();
 			$imagesManager = new ImagesManager();
-			$news = $newsManager->addNews();
 
 			$title = $_POST['title'];
 			$content = $_POST['content'];
-			$link = $_FILES['name']['type'];
+			$link = $_POST['link'];
+
+			$newsManager->addNews($title, $content, $link, $user);
 		}
+		// else {
+		// 	View::show("errors/404.php", "Page Not Found");
+		// }
+
+		View::show("addNew.php", "Add News");
 	}
 
 }

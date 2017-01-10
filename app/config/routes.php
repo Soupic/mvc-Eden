@@ -13,5 +13,5 @@ $routes = [
 	"/login" => "login",
 	"/logout" => "logout",
 	"/register" => "register",
-	"/admin" => "admin",
+	"/addNews" => "adminNews",
 ];

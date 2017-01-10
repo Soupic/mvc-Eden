@@ -12,6 +12,12 @@
 				<li><a href="<?= BASE_URL?>register">Registration</a></li>
 			<?php } ?>
 </ul>
+<ul>
+	
+	<?php if(!empty($_SESSION['role'] == true)){ ?>
+		<li><a href="<?= BASE_URL?>addNews">Add News</a></li>
+	<?php } ?>
+</ul>
 <?php if(!empty($_SESSION)){ ?>
 	<div> 
 		<p>Bonjour <?= $_SESSION['user']['pseudo'] ?></p> 
