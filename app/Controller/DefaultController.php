@@ -4,6 +4,7 @@ namespace Controller;
 
 use View\View;
 use Model\Manager\NewsManager;
+use Model\Entity\News;
 use Model\Manager\CaractersManager;
 use Model\Manager\UsersManager;
 use Model\Manager\ImagesManager;
@@ -195,23 +196,36 @@ class DefaultController
 
 	function adminNews()
 	{
+
 		$usersManager = new UsersManager();
 		$user = $usersManager->checkPseudo($_SESSION['user']['pseudo']);
-		if(!empty($_SESSION['user']['role'] == true) && !empty($_GET['addNews'])){
+		$news = $_GET['add'];
+		
+
+		if(!empty($_SESSION['role'] == true ) && !empty($news)){
 			$newsManager = new NewsManager();
+			$addNews = new News();
 			$imagesManager = new ImagesManager();
+			if (!empty($_POST['title']) && !empty($_POST['content']) && !empty($_POST['link'])) {
+				$title = $_POST['title'];
+				$content = $_POST['content'];
+				$link = $_POST['link'];
+				$newsManager->addNews($title, $content, $link, intval($user));
+		
+			}
 
-			$title = $_POST['title'];
-			$content = $_POST['content'];
-			$link = $_POST['link'];
 
-			$newsManager->addNews($title, $content, $link, $user);
 		}
 		// else {
 		// 	View::show("errors/404.php", "Page Not Found");
 		// }
-
+		/*$data = [
+			"title"	=> $title,
+			"content" => $content,
+			"link" => $link,
+		];*/
 		View::show("addNew.php", "Add News");
+
 	}
 
 }

@@ -15,7 +15,7 @@
 <ul>
 	
 	<?php if(!empty($_SESSION['role'] == true)){ ?>
-		<li><a href="<?= BASE_URL?>addNews">Add News</a></li>
+		<li><a href="<?= BASE_URL?>addNews?add=news">Add News</a></li>
 	<?php } ?>
 </ul>
 <?php if(!empty($_SESSION)){ ?>
