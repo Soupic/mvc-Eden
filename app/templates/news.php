@@ -2,7 +2,8 @@
 
 <div>
 	<?php foreach ($news as $new) : ?>
-		<h3><?= $new->getTitle() ?></h3>
-		<p><?= $new->getContent() ?></p>
-	<?php endforeach; ?>
+			<h1><?= $new->getTitle(); ?></h1>
+			<p><?= $new->getNumPost(); ?></p>
+			<p><?= $new->getContent(); ?></p>
+	<?php endforeach ; ?>
 </div>

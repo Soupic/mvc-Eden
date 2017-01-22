@@ -204,16 +204,21 @@ class DefaultController
 		if(!empty($_SESSION['role'] == true ) && !empty($news)){
 			$newsManager = new NewsManager();
 			$imagesManager = new ImagesManager();
-			if (!empty($_POST['title']) && !empty($_POST['content']) && !empty($_POST['link'])) {
+			if (!empty($_POST['title']) && !empty($_POST['content']) && (($_POST['link']) || ($_POST['link'] == null))) {
+				$initNumPost = 0;
+				$numPost = $newsManager->lastNews();
+				$initNumPost = intval($numPost['num_post']);
+				$initNumPost += 1;
 				$title = $_POST['title'];
 				$content = $_POST['content'];
 				$link = $_POST['link'];
-				$newsManager->addNews($title, $content, $link, intval($user));
+				$newsManager->addNews($initNumPost, $title, $content, $link, intval($user));
 			}
 		}
 		 else {
 		 	View::show("errors/404.php", "Page Not Found");
 		 }
+		
 		View::show("addNew.php", "Add News");
 
 	}

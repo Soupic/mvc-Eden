@@ -34,7 +34,7 @@ class ImagesManager
 		return $results;
 	}
 
-	public function caractresImage($caracterId)
+	public function caractersImage($caracterId)
 	{
 		$sql = "SELECT img.id, img.name, img.type, img.id_caracters
 				FROM images img

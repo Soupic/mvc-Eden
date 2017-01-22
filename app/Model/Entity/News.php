@@ -6,6 +6,7 @@ class News
 {
 	private $id;
 	private $date_post;
+    private $num_post;
 	private $title;
 	private $content;
 	private $link;
@@ -145,5 +146,27 @@ class News
     public function setIdUsers($id_users)
     {
         $this->id_users = $id_users;
+    }
+
+    /**
+     * Gets the value of num_post.
+     *
+     * @return mixed
+     */
+    public function getNumPost()
+    {
+        return $this->num_post;
+    }
+
+    /**
+     * Sets the value of num_post.
+     *
+     * @param mixed $num_post the num post
+     *
+     * @return self
+     */
+    public function setNumPost($num_post)
+    {
+        $this->num_post = $num_post;
     }
 }

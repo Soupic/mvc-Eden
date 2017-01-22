@@ -5,7 +5,7 @@
 			<input type="text" name="title" id="title">
 
 			<label for="content">Content</label>
-			<input type="text" name="content" id="content">
+			<textarea name="content" id="content"></textarea>
 
 			<label for="link">Link</label>
 			<input type="text" name="link" id="link">
