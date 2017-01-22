@@ -1,7 +1,7 @@
 <div id="menu" class="list-group">
 	<div id="navigation">
 		<ul id="usersNav">
-			<li><a href="<?= BASE_URL?>home">home</li>
+			<li><a href="<?= BASE_URL?>home">home</a></li>
 			<li><a href="<?= BASE_URL?>news">News</a></li>
 			<li><a href="<?= BASE_URL?>caracters">Caracters</a></li>
 			<?php if(!empty($_SESSION['user']) && $_SESSION['user']['id'] == 1 || 0) { 
