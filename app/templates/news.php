@@ -4,8 +4,8 @@
 	<?php foreach ($news as $new) : ?>
 			<div id="newsContent">
 				<h3><?= $new->getTitle(); ?></h3>
-				<p><?= $new->getNumPost(); ?></p>
-				<p><?= $new->getContent(); ?></p>
+				<p class="numNews">News n° : <?= $new->getNumPost(); ?></p>
+				<p class="contentNews"><?= $new->getContent(); ?></p>
 			</div>
 	<?php endforeach ; ?>
 </div>
